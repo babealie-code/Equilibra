@@ -1914,7 +1914,6 @@ function renderWorkout(){
   <div class="stack">
     <div class="wk-head"><div><div class="eyebrow">Séance en cours</div><div class="clock" id="clock">0:00</div></div>
       <button class="btn ghost" id="cancel">Abandonner</button></div>
-    <button type="button" class="lockal" id="lockal" aria-pressed="${!!state.lockAlarm}"><span class="sw" aria-hidden="true"></span><span><b>Alarme écran verrouillé</b><small>${state.lockAlarm ? 'Active : sonne même téléphone verrouillé. Ta musique se met en pause pendant le repos.' : 'Désactivée : le bip ne sonne que si l’écran reste allumé.'}</small></span></button>
     ${workout.ex.map((e,ei) => `
     <div class="card" data-ei="${ei}">
       <div class="row" style="justify-content:space-between;margin-bottom:6px"><h3>${esc(e.n)}</h3>${GROUP[e.n] ? `<span class="chip">${esc(GROUP[e.n])}</span>` : ''}</div>
@@ -1958,7 +1957,6 @@ function renderWorkout(){
     const pr = progressFor(n, 10);
     workout.ex.push({ n, t: 10, rest: defaultRest(n), prog: pr ? { note: pr.note, up: pr.up } : null, sets: [0,1,2].map(() => ({ kg: pr ? pr.kg : lastKg(n), r: 10, done: false, e: null })) }); saveDraft(); renderWorkout(); };
   $('#finish').onclick = finishWorkout;
-  $('#lockal').onclick = () => { state.lockAlarm = !state.lockAlarm; persist(); if (!state.lockAlarm) disarmAlarm(); else if (restEnd > Date.now() && !$('#restbar').hidden) armAlarm(); const y = window.scrollY; renderWorkout(); window.scrollTo(0, y); };
   $('#cancel').onclick = () => { $('#cancelbox').innerHTML = `<div class="card row" style="justify-content:space-between"><span>Abandonner sans enregistrer ?</span><span class="row"><button class="btn" id="keep">Continuer</button><button class="btn danger" id="drop">Abandonner</button></span></div>`;
     $('#cancelbox').scrollIntoView({ block:'center' });
     $('#keep').onclick = () => $('#cancelbox').innerHTML = '';
@@ -2005,7 +2003,7 @@ function alarmWav(silence){
 }
 function armAlarm(){
   alarmArmed = false;
-  if (!state.lockAlarm) return;
+  return; // désactivé : mettait la musique en pause (à remplacer par une notification)
   const left = (restEnd - Date.now())/1000; if (left <= 0.5) return;
   try {
     if (!restAudio){ restAudio = new Audio(); restAudio.setAttribute('playsinline', ''); restAudio.preload = 'auto'; }
