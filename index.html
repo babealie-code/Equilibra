@@ -2000,9 +2000,8 @@ function renderStats(){
   app.innerHTML = `
   <div class="stack">
     <div><button class="btn ghost" type="button" data-go="today" style="padding-left:0">‹ Accueil</button><div class="eyebrow">Progression</div><h2>Statistiques</h2></div>
-    <div class="kpis">
+    <div class="kpis" style="grid-template-columns:repeat(2,minmax(0,1fr))">
       <div class="card kpi"><div class="v num">${month}</div><div class="l">séances ce mois</div></div>
-      <div class="card kpi"><div class="v num">${weekSets}</div><div class="l">séries cette semaine</div></div>
       <div class="card kpi"><div class="v num">${Object.keys(rec).length}</div><div class="l">records suivis</div></div>
     </div>
     <div class="card stack" style="gap:8px">
