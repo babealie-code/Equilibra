@@ -817,7 +817,7 @@ function weekSummary(){
   const lg = days.filter(d => (meals[d] || []).length);
   if (lg.length < 2) return '';
   const T = macroTargets(), avg = k => lg.reduce((s,d) => s + dayTot(d)[k], 0) / lg.length;
-  const ak = avg('k'), ap = avg('p'), hit = T.p ? lg.filter(d => dayTot(d).p >= T.p * 0.9).length : null;
+  const ak = avg('k'), ap = avg('p'), hit = T.p ? lg.filter(d => dayTot(d).p >= T.p).length : null;
   const vs = (v, tg, u) => tg ? ` <span class="muted">/ ${tg} ${u}</span> <span class="${Math.abs(v - tg) <= tg * 0.1 ? 'ok-t' : 'warn-t'}">${v >= tg ? '+' : ''}${fmt(v - tg, 0)}</span>` : '';
   return `<div class="card stack" style="gap:6px"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h3>Bilan des 7 derniers jours</h3><span class="muted" style="font-size:13px">${lg.length} jour${lg.length > 1 ? 's' : ''} noté${lg.length > 1 ? 's' : ''}</span></div>
     <div class="wrow"><span>Énergie moyenne</span><b class="num">${fmt(ak, 0)} kcal</b>${vs(ak, T.k, 'kcal')}</div>
