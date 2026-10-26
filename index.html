@@ -850,7 +850,7 @@ function weekSummary(){
   const lg = days.filter(d => (meals[d] || []).length);
   if (lg.length < 2) return '';
   const T = macroTargets(), avg = k => lg.reduce((s,d) => s + dayTot(d)[k], 0) / lg.length;
-  const ak = avg('k'), ap = avg('p'), hit = T.p ? lg.filter(d => dayTot(d).p >= T.p).length : null;
+  const ak = avg('k'), ap = avg('p'), hit = T.p ? lg.filter(d => Math.round(dayTot(d).p) >= T.p).length : null;
   const vs = (v, tg, u) => tg ? ` <span class="muted">/ ${tg} ${u}</span> <span class="${Math.abs(v - tg) <= tg * 0.1 ? 'ok-t' : 'warn-t'}">${v >= tg ? '+' : ''}${fmt(v - tg, 0)}</span>` : '';
   return `<div class="card stack" style="gap:6px"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h3>Bilan des 7 derniers jours</h3><span class="muted" style="font-size:13px">${lg.length} jour${lg.length > 1 ? 's' : ''} noté${lg.length > 1 ? 's' : ''}</span></div>
     <div class="wrow"><span>Énergie moyenne</span><b class="num">${fmt(ak, 0)} kcal</b>${vs(ak, T.k, 'kcal')}</div>
@@ -1184,7 +1184,7 @@ function weekChart(){
   const y = v => T + (1 - v / hi) * (H - T - B);
   const step = hi > 150 ? 50 : hi > 60 ? 25 : 10;
   let g = ''; for (let v = 0; v <= hi; v += step) g += `<line class="grid" x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/><text class="lbl" x="${L-5}" y="${y(v)+3}" text-anchor="end">${v}</text>`;
-  const bars = days.map((d,i) => logged[i] ? `<rect class="pbar${tg && vals[i] >= tg ? ' ok' : ''}" x="${L + i*bw + 2}" y="${y(vals[i])}" width="${bw - 4}" height="${Math.max(0, y(0) - y(vals[i]))}" rx="3"/>` : `<rect class="pbar empty" x="${L + i*bw + 2}" y="${y(0) - 2}" width="${bw - 4}" height="2"/>`).join('');
+  const bars = days.map((d,i) => logged[i] ? `<rect class="pbar${tg && Math.round(vals[i]) >= tg ? ' ok' : ''}" x="${L + i*bw + 2}" y="${y(vals[i])}" width="${bw - 4}" height="${Math.max(0, y(0) - y(vals[i]))}" rx="3"/>` : `<rect class="pbar empty" x="${L + i*bw + 2}" y="${y(0) - 2}" width="${bw - 4}" height="2"/>`).join('');
   const tl = tg ? `<line class="goal" x1="${L}" x2="${W-R}" y1="${y(tg)}" y2="${y(tg)}"/><text class="goal-l" x="${W-R}" y="${y(tg)-4}" text-anchor="end">repère ${tg} g</text>` : '';
   return `<div class="card chart"><div class="eyebrow" style="margin-bottom:6px">Protéines, 14 derniers jours (g)</div><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Protéines par jour sur 14 jours">${g}${bars}${tl}
     <text class="lbl" x="${L}" y="${H-6}">${fmtDate(days[0])}</text><text class="lbl" x="${W-R}" y="${H-6}" text-anchor="end">${fmtDate(days[13])}</text></svg></div>`;
