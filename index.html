@@ -81,7 +81,7 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surfa
 nav.tabs button{appearance:none;background:none;border:0;padding:9px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;color:var(--muted);cursor:pointer}
 nav.tabs button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs button[aria-selected="true"]{color:var(--accent);font-weight:700}
-body.in-workout nav.tabs{display:none}
+body.in-workout nav.tabs{display:none!important}
 body.wk-away #restbar{bottom:calc(84px + env(safe-area-inset-bottom,0px));left:12px;right:12px;border-radius:18px;padding-bottom:12px}
 .wkpill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:8;background:var(--accent);color:var(--accent-fg);border:0;border-radius:999px;padding:11px 18px;font:inherit;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.45);cursor:pointer;white-space:nowrap}
 body.wk-away.resting .wkpill{bottom:calc(160px + env(safe-area-inset-bottom,0px))}
